@@ -3,14 +3,17 @@ import { AuthContext } from "./Provider/AuthProvider";
 import { useContext } from "react";
 
 const Login = () => {
-    const { signInUser, signInWithGoogle } = useContext(AuthContext);
-    const navigate = useNavigate()
+
+    const { signInUser, signInWithGoogle, signInWithGithub } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     const handleLogin = e => {
         e.preventDefault();
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email, password,name);
+        console.log(email, password, name);
 
 
         signInUser(email, password)
@@ -23,7 +26,10 @@ const Login = () => {
                 console.log(error.message);
             });
 
-    }
+    };
+
+    // For Google----------
+
     const handleGoogle = () => {
         signInWithGoogle()
             .then(result => {
@@ -32,9 +38,22 @@ const Login = () => {
             .catch(error => {
                 console.log(error.message);
             })
-    }
+    };
+
+    // For Github-----------
+
+    const handleGithub = () => {
+        signInWithGithub()
+            .then(result => {
+                console.log(result.user);
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+    };
 
     return (
+
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col">
                 <div className="text-center">
@@ -71,7 +90,11 @@ const Login = () => {
                     <p>New Here? Please <Link to={'/register'}><button className="btn btn-primary">Register</button></Link></p>
 
                 </div>
+
                 <p><button onClick={handleGoogle} className="btn btn-ghost">Google</button></p>
+
+                <p><button onClick={handleGithub} className="btn btn-ghost">Github</button></p>
+
             </div>
         </div>
     );
